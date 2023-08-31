@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isDead = false;
 
+    public bool canMove = true; 
+
     public bool IsPlayerAlive()
     {
     return !isDead;
@@ -46,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return; 
+        if (isDead || !canMove) return;
 
         isGrounded = characterController.isGrounded; // This checks if the character is on the ground
         if (isGrounded && velocity.y < 0)
@@ -89,11 +91,11 @@ public class PlayerController : MonoBehaviour
 
         healthBarFill.fillAmount = playerStatus.health / maxHealth;
         oxygenBarFill.fillAmount = playerStatus.oxygen / maxOxygen;
-
-
-        void UpdateMapDisplay()
-    {
-    // Update your map display logic here
     }
+
+    public void TogglePlayerMovement(bool enable)
+    {
+        canMove = enable;
+        Cursor.lockState = enable ? CursorLockMode.Locked : CursorLockMode.None; // Lock cursor if movement is enabled, otherwise unlock.
     }
 }

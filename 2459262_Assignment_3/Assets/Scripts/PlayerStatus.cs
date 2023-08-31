@@ -4,8 +4,8 @@ public class PlayerStatus : MonoBehaviour
 {
     public float health = 100f;
     public float oxygen = 100f;
-    public float oxygenDepletionRate = 2.0f; // oxygen depletes by this amount per second
-    public bool isInOxygenZone = false; // check if player is in an oxygen zone
+    public float oxygenDepletionRate = 100.0f;
+    public bool isInOxygenZone = false;
 
     private PlayerController playerController;
 
@@ -31,14 +31,12 @@ public class PlayerStatus : MonoBehaviour
     {
         if (playerController.isSprinting)
         {
-            adjustment *= 2;  // double the depletion rate
+            adjustment *= 2;
         }
         oxygen = Mathf.Clamp(oxygen - adjustment, 0, 100);
     }
     else
     {
-        // Replenish the oxygen when in the oxygen zone.
-        // You can use a different rate for replenishment if needed.
         oxygen = Mathf.Clamp(oxygen + adjustment, 0, 100);
     }
     }

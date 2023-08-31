@@ -1,37 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class InteractionTrigger : MonoBehaviour
+public class EndGameArea : MonoBehaviour
 {
-    public GameObject eIconQuad;
-
-    public GameObject doorObject;
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void Start()
-    {
-        eIconQuad.SetActive(false); 
-    }
+    public GameObject winScreen;    
+    public PlayerController playerController;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void OnTriggerEnter(Collider other)
     {
-    if (other.CompareTag("Player") && doorObject.activeInHierarchy) 
-    {
-        eIconQuad.SetActive(true);
-    }
+        if (other.CompareTag("Player"))
+        {
+            ShowWinScreen();
+        }
     }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void OnTriggerExit(Collider other)
+    void ShowWinScreen()
     {
-        if (other.CompareTag("Player"))
-        {
-            eIconQuad.SetActive(false);
-        }
+        winScreen.SetActive(true);
+        playerController.TogglePlayerMovement(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

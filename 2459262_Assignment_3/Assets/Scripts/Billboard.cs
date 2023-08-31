@@ -6,7 +6,7 @@ public class Billboard : MonoBehaviour
 
     private void Start()
     {
-        mainCamera = Camera.main; // assuming you are using the main camera
+        mainCamera = Camera.main;
     }
 
     void Update()

@@ -7,11 +7,11 @@ using TMPro;
 public class ColorMatchingTask : MonoBehaviour
 {
     public GameObject taskPanel;
-    public Slot[] colorSlots; // Assign in Inspector
+    public Slot[] colorSlots;
 
-    public static int Room1Tasks = 0;
+    public int Room1Tasks = 0;
 
-    public Animator doorAnimator; // Animator for the door, with an animation named "OpenDoor"
+    public GameObject finalDoor;
 
     private bool taskCompleted = false;
 
@@ -30,7 +30,7 @@ public class ColorMatchingTask : MonoBehaviour
 
     void Start()
     {
-    playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     void Update()
@@ -40,17 +40,22 @@ public class ColorMatchingTask : MonoBehaviour
             taskCompleted = true;
             taskPanel.SetActive(false);
             Room1Tasks++;
-            if (Room1Tasks >= 3)
-            {
-                doorAnimator.Play("OpenDoor");
-            }
-
+            Room1Tasks++;
+            Room1Tasks++;
+            Room1Tasks++;
+            Room1Tasks++;
+            
             playerController.TogglePlayerMovement(true);
             taskCompletionText.text = $"Tasks Completed: {Room1Tasks}/5";
 
-            float progress = Room1Tasks / 3.0f;  // This will give a value between 0 and 1
+            float progress = Room1Tasks / 5.0f;
             taskProgressBar.fillAmount = progress;
             taskQuad.SetActive(false);
+            
+            if (Room1Tasks >= 5)
+            {
+                finalDoor.SetActive(false);
+            }
         }
     }
 
@@ -66,18 +71,17 @@ public class ColorMatchingTask : MonoBehaviour
 
     private void CheckTaskCompletion()
     {
-    foreach (Slot slot in slots)
-    {
-        if (!slot.isCorrectlyFilled)
+        foreach (Slot slot in slots)
         {
-            return;  // If any slot is not correctly filled, we just return
+            if (!slot.isCorrectlyFilled)
+            {
+                return;
+            }
         }
-    }
 
-    // If we've reached here, all slots are correctly filled
-    taskCompleted = true;
+        
+        taskCompleted = true;
 
-    // Hide the panel
-    colorMatchPanel.SetActive(false);
+        colorMatchPanel.SetActive(false);
     }
 }

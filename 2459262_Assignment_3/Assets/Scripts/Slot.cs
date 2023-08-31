@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler
 {
-    public GameObject correctColorBox; // Assign in Inspector
+    public GameObject correctColorBox;
 
     public bool isCorrectlyFilled = false;
 
@@ -13,8 +13,8 @@ public class Slot : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag == correctColorBox)
         {
-            eventData.pointerDrag.transform.position = transform.position; // Position the color box onto the slot
-            isCorrectlyFilled = true; // Mark the slot as correctly filled
+            eventData.pointerDrag.transform.position = transform.position;
+            isCorrectlyFilled = true;
         }
         else
         {

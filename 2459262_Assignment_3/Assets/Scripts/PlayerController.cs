@@ -8,16 +8,16 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
     public float mouseSensitivity = 2f;
-    public float gravity = -9.81f; // Gravity force, can adjust if needed.
+    public float gravity = -9.81f;
     public float jumpHeight = 2.0f;
 
     private CharacterController characterController;
-    private Vector3 velocity;  // Vector3 to store our downward force in (gravity)
+    private Vector3 velocity;
     private bool isGrounded;
    // private float groundCheckDistance = 0.4f;
     private float pitch = 0f;
 
-    public float sprintSpeedMultiplier = 1.5f; // Sprinting increases speed by this factor
+    public float sprintSpeedMultiplier = 1.5f;
     public bool isSprinting = false;
 
     public Image healthBarFill;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked; // lock the cursor to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked;
         playerStatus = GetComponent<PlayerStatus>();
 
     }
@@ -50,10 +50,10 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead || !canMove) return;
 
-        isGrounded = characterController.isGrounded; // This checks if the character is on the ground
+        isGrounded = characterController.isGrounded;
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;  // This ensures that the character is "stuck" to the ground
+            velocity.y = -2f;
         }
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -67,24 +67,21 @@ public class PlayerController : MonoBehaviour
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        float currentSpeed = isSprinting ? speed * sprintSpeedMultiplier : speed;  // Use isSprinting to adjust speed
+        float currentSpeed = isSprinting ? speed * sprintSpeedMultiplier : speed;
         Vector3 move = transform.right * x + transform.forward * z;
         characterController.Move(move * currentSpeed * Time.deltaTime); 
 
-        // Jumping logic
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        // Apply gravity
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
 
-        // Handle mouse look
         float yaw = Input.GetAxis("Mouse X") * mouseSensitivity;
         float pitchDelta = Input.GetAxis("Mouse Y") * mouseSensitivity;
-        pitch = Mathf.Clamp(pitch - pitchDelta, -90f, 90f); // restrict pitch to prevent over rotation
+        pitch = Mathf.Clamp(pitch - pitchDelta, -90f, 90f);
 
         transform.Rotate(Vector3.up * yaw);
         Camera.main.transform.localEulerAngles = new Vector3(pitch, 0f, 0f);
@@ -96,6 +93,6 @@ public class PlayerController : MonoBehaviour
     public void TogglePlayerMovement(bool enable)
     {
         canMove = enable;
-        Cursor.lockState = enable ? CursorLockMode.Locked : CursorLockMode.None; // Lock cursor if movement is enabled, otherwise unlock.
+        Cursor.lockState = enable ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }
